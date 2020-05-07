@@ -1,0 +1,8 @@
+{
+  "name": "semantic-release-drone",
+  "version": "0.1.0",
+  "description": "Semantic Release Drone plugin",
+  "repository": "https://github.com/smoothify/drone-semantic-release",
+  "author": "Ben Osman <dev@smoothify.com>",
+  "license": "MIT"
+}
