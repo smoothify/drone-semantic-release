@@ -83,7 +83,6 @@ func main() {
     &cli.BoolFlag{
       Name:   "package-json",
       Usage:  "generate package.json",
-      Value: true,
       EnvVars: []string{"PLUGIN_PACKAGE_JSON"},
     },
     &cli.StringFlag{
