@@ -13,19 +13,47 @@ steps:
     - "go build -v -ldflags \"-X main.version=${DRONE_COMMIT_SHA:0:8}\" -a -tags netgo -o release/linux/amd64/semantic-release-plugin ./"
   when:
     event:
-      exclude:
-      - tag
+      - push
 
 - name: get-version
   image: node:14-alpine
   environment:
     NODE_PATH: "/usr/local/lib/node_modules"
+    PLUGIN_GIT_LOGIN: { from_secret: git_username }
+    PLUGIN_GIT_PASSWORD: { from_secret: git_password }
+    PLUGIN_GIT_USER_EMAIL: { from_secret: git_email }
+    PLUGIN_TAGS_BUILD: true
+    PLUGIN_TAGS_REQUIRE_VERSION: false
   commands:
     - "sh ./scripts/install.sh"
     - "mkdir /semantic-release && cp default.config.js /semantic-release/"
     - "cp release/linux/amd64/semantic-release-plugin /bin/"
+    - /bin/semantic-release-plugin --dry-run
   when:
     event:
-      exclude:
-      - tag
+      - push
 
+- name: build-branch
+  image: plugins/docker
+  settings:
+    repo: smoothify/drone-semantic-release
+    username: {from_secret: docker_username}
+    password: {from_secret: docker_password}
+    #cache_from:
+    #  - $${REPO_PATH}:latest
+  when:
+    event:
+      - push
+
+- name: release-branch
+  image: smoothify/drone-semantic-release
+  settings:
+    dry_run: false
+    git_login: { from_secret: git_username }
+    git_password: { from_secret: git_password }
+    git_user_email: { from_secret: git_email }
+    changelog: true
+    package_json: true
+  when:
+    event:
+      - push
