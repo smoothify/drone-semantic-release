@@ -23,7 +23,7 @@ steps:
   commands:
     - "sh ./scripts/install.sh"
     - "mkdir /semantic-release && cp default.config.js /semantic-release/"
-    - "mkdir /bin && cp release/linux/amd64/semantic-release-plugin /bin/"
+    - "cp release/linux/amd64/semantic-release-plugin /bin/"
   when:
     event:
       exclude:
