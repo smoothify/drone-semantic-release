@@ -1,3 +1,11 @@
+## [0.1.2](https://github.com/smoothify/drone-semantic-release/compare/v0.1.1...v0.1.2) (2020-08-12)
+
+
+### Bug Fixes
+
+* simplify .drone pipeline ([38df195](https://github.com/smoothify/drone-semantic-release/commit/38df1958a0ab103056e700f40fac0bd3d7264fba))
+* update .drone file to do dry run first ([e16c3d0](https://github.com/smoothify/drone-semantic-release/commit/e16c3d000ea142d776c8cb3e4d0f6a2ed80e8f33))
+
 ## [0.1.1](https://github.com/smoothify/drone-semantic-release/compare/v0.1.0...v0.1.1) (2020-05-07)
 
 
