@@ -6,6 +6,7 @@ steps:
 
 - name: get-branch-version
   image: smoothify/drone-semantic-release
+  pull: always
   settings:
     dry_run: true
     git_credentials: { from_secret: git_password }
@@ -41,6 +42,7 @@ steps:
 
 - name: release-branch
   image: smoothify/drone-semantic-release
+  pull: always
   settings:
     dry_run: false
     git_credentials: { from_secret: git_password }
