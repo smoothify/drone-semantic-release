@@ -4,7 +4,7 @@ name: default
 
 steps:
 
-- name: build-push
+- name: build-branch
   image: golang:1.11
   environment:
     CGO_ENABLED: 0
@@ -15,14 +15,24 @@ steps:
     event:
       - push
 
-- name: build-branch
+- name: get-branch-version
+  image: smoothify/drone-semantic-release
+  settings:
+    dry_run: true
+    git_login: { from_secret: git_username }
+    git_password: { from_secret: git_password }
+    git_user_email: drone@radiantflow.net
+    tags_build: true
+  when:
+    event:
+      - push
+
+- name: build-branch-image
   image: plugins/docker
   settings:
     repo: smoothify/drone-semantic-release
     username: {from_secret: docker_username}
     password: {from_secret: docker_password}
-    tag:
-      - ${DRONE_BRANCH/#master/latest}
     cache_from:
       - smoothify/drone-semantic-release:latest
   when:
