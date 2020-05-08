@@ -55,6 +55,7 @@ func (p Plugin) Exec() error {
   cmd := commandBuild(p)
 
   cmd.Stderr = os.Stderr
+  cmd.Stdout = os.Stdout
   trace(cmd)
 
   err := removeVersionFile(p)
@@ -62,12 +63,10 @@ func (p Plugin) Exec() error {
     return err
   }
 
-  out, err := cmd.Output()
+  err = cmd.Run()
   if err != nil {
     return err
   }
-
-  logrus.Info(string(out))
 
   version := retrieveVersion(p)
 
