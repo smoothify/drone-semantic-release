@@ -31,6 +31,7 @@ type (
 		GenerateChangelog   bool
 		GeneratePackageJson bool
 		CommitMsgTemplate   string
+    CustomVersion       string
     VersionFilename     string
 		Assets              []string
 		TagsBuild           bool
@@ -51,24 +52,30 @@ type (
 
 // Exec executes the plugin step
 func (p Plugin) Exec() error {
+  var version string
 
-  cmd := commandBuild(p)
+  if p.Release.CustomVersion == "" {
+    cmd := commandBuild(p)
 
-  cmd.Stderr = os.Stderr
-  cmd.Stdout = os.Stdout
-  trace(cmd)
+    cmd.Stderr = os.Stderr
+    cmd.Stdout = os.Stdout
+    trace(cmd)
 
-  err := removeVersionFile(p)
-  if err != nil {
-    return err
+    err := removeVersionFile(p)
+    if err != nil {
+      return err
+    }
+
+    err = cmd.Run()
+    if err != nil {
+      return err
+    }
+
+    version = retrieveVersion(p)
+
+  } else {
+    version = p.Release.CustomVersion
   }
-
-  err = cmd.Run()
-  if err != nil {
-    return err
-  }
-
-  version := retrieveVersion(p)
 
   if version == "" && p.ErrorNoRelease {
     logrus.Fatal("No release required, no version created")

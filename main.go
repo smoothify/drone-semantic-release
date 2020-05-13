@@ -86,6 +86,11 @@ func main() {
       EnvVars: []string{"PLUGIN_PACKAGE_JSON"},
     },
     &cli.StringFlag{
+      Name:   "custom-version",
+      Usage:  "custom version",
+      EnvVars: []string{"PLUGIN_CUSTOM_VERSION"},
+    },
+    &cli.StringFlag{
       Name:   "version.filename",
       Usage:  "version file filename",
       Value:  ".release-version",
@@ -164,7 +169,7 @@ func run(c *cli.Context) error {
   if c.String("git.login") != "" && c.String("git.password") != "" {
     _ = c.Set("git.credentials", fmt.Sprintf("%s:%s", url.PathEscape(c.String("git.login")), url.PathEscape(c.String("git.password"))))
   }
-  if c.String("github.token") == "" && c.String("bitbucket.token") == "" && c.String("git.credentials") == "" {
+  if c.String("custom-version") == "" && c.String("github.token") == "" && c.String("bitbucket.token") == "" && c.String("git.credentials") == "" {
     return errors.New("one of github.token, bitbucket.token or git credentials must be supplied")
   }
 
@@ -181,6 +186,7 @@ func run(c *cli.Context) error {
       DryRun:              c.Bool("dry-run"),
       GenerateChangelog:   c.Bool("changelog"),
       GeneratePackageJson: c.Bool("package-json"),
+      CustomVersion:       c.String("custom-version"),
       VersionFilename:     c.String("version.filename"),
       CommitMsgTemplate:   c.String("commit.template"),
       Assets:              c.StringSlice("assets"),
