@@ -130,7 +130,7 @@ func commandBuild(plugin Plugin) *exec.Cmd {
     fmt.Sprintf("GIT_COMMITTER_EMAIL=%s", plugin.Repo.GitUserEmail),
     fmt.Sprintf("GENERATE_CHANGELOG=%t", plugin.Release.GenerateChangelog),
     fmt.Sprintf("GENERATE_PACKAGEJSON=%t", plugin.Release.GeneratePackageJson ),
-    fmt.Sprintf("GIT_ASSETS=%s", strings.Join(plugin.Release.Assets, ",")),
+    fmt.Sprintf("GIT_ASSETS=%s", getAssetList(plugin)),
     fmt.Sprintf("GIT_COMMIT_TEMPLATE=%s", plugin.Release.CommitMsgTemplate ),
     fmt.Sprintf("VERSION_FILENAME=%s", plugin.Release.VersionFilename),
     fmt.Sprintf("DRONE_BRANCH=%s", plugin.Repo.Branch),
@@ -154,6 +154,17 @@ func commandBuild(plugin Plugin) *exec.Cmd {
 	return cmd
 }
 
+func getAssetList(plugin Plugin) string {
+  if plugin.Release.GenerateChangelog && ! contains(plugin.Release.Assets, "CHANGELOG.md") {
+    plugin.Release.Assets = append(plugin.Release.Assets, "CHANGELOG.md")
+  }
+  if plugin.Release.GeneratePackageJson && ! contains(plugin.Release.Assets, "package.json") {
+    plugin.Release.Assets = append(plugin.Release.Assets, "package.json")
+  }
+
+  return strings.Join(plugin.Release.Assets, ",")
+}
+
 func removeVersionFile(plugin Plugin) error  {
   filename := plugin.Release.VersionFilename
   _, err := os.Stat(filename)
@@ -164,6 +175,15 @@ func removeVersionFile(plugin Plugin) error  {
     }
   }
   return nil
+}
+
+func contains(s []string, e string) bool {
+  for _, a := range s {
+    if a == e {
+      return true
+    }
+  }
+  return false
 }
 
 func retrieveVersion(plugin Plugin) string {
