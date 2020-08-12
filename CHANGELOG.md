@@ -1,3 +1,20 @@
+# [0.2.0](https://github.com/smoothify/drone-semantic-release/compare/v0.1.2...v0.2.0) (2020-08-12)
+
+
+### Bug Fixes
+
+* add auto asset list management ([af71c6b](https://github.com/smoothify/drone-semantic-release/commit/af71c6b629323edd9c862546d29fa08e6cfbc7f4))
+* make sure own image is pulled each time to ensure latest changes ([5242324](https://github.com/smoothify/drone-semantic-release/commit/52423241991ccaa2f87782853f0238fa2fb7e57e))
+* retrieve next version before build ([81d2d8b](https://github.com/smoothify/drone-semantic-release/commit/81d2d8b4dab206715fc129fdc1e02615c3de7664))
+* switch to using just git token for credentials (no username) ([602eaf8](https://github.com/smoothify/drone-semantic-release/commit/602eaf897027482fe781f2c6cc699b2960e03e86))
+* use entrypoint to resolve line break issue in output ([5f3fa9a](https://github.com/smoothify/drone-semantic-release/commit/5f3fa9a52ceeca7ac35a74516367d62bc02a7aa6))
+* use StdOut to return program output ([ffec1e5](https://github.com/smoothify/drone-semantic-release/commit/ffec1e527691fd476cd72afcd724682e8f19f110))
+
+
+### Features
+
+* add custom version setting to skip semantic release ([aaa518d](https://github.com/smoothify/drone-semantic-release/commit/aaa518dab1b52b316ce25837649b9a9628612126))
+
 ## [0.1.2](https://github.com/smoothify/drone-semantic-release/compare/v0.1.1...v0.1.2) (2020-08-12)
 
 
